@@ -1,4 +1,6 @@
 import "react-loading-skeleton/dist/skeleton.css";
+import { useCallback } from "react";
+import { debounce } from "lodash";
 import { IMovie } from "../../apis/type";
 import { MovieCard } from "../movie-card";
 import {
@@ -20,12 +22,28 @@ interface ICarousel {
   [key: string]: any;
 }
 
-export default function Carousel(props: ICarousel) {
-  const { title, movies, isLarge, isLoading, isMulti, ...rest } = props;
-
+const useCarousel = () => {
   const myListMovies = useAppSelector(myMovies);
 
   const dispatch = useAppDispatch();
+
+  const handleOnAddToList = useCallback(
+    debounce(
+      (data: IMovie) => {
+        dispatch(updateMyList(data));
+      },
+      500,
+      { leading: true, trailing: false, maxWait: 500 }
+    ),
+    []
+  );
+
+  return { handleOnAddToList, myListMovies };
+};
+
+export default function Carousel(props: ICarousel) {
+  const { title, movies, isLarge, isLoading, isMulti, ...rest } = props;
+  const { handleOnAddToList, myListMovies } = useCarousel();
 
   if (isLoading) {
     return <CarouselLoader isLarge={isLarge} />;
@@ -54,7 +72,7 @@ export default function Carousel(props: ICarousel) {
               isLarge={isLarge}
               isLiked={isLiked}
               movie={movie}
-              onAddToList={(data) => dispatch(updateMyList(data))}
+              onAddToList={handleOnAddToList}
             />
           );
         })}
