@@ -4,7 +4,9 @@ import AvatarPic from "../../icons/avatar.png";
 
 export default function NavBar() {
   const [isBackgroundVisible, setIsBackgroundVisible] = useState(false);
-
+  const handleOnClickAvatar = () => {
+    window.open("https://github.com/ShaBax/netflix-clone", "_blank");
+  };
   const handleScroll = () => {
     const scrollPosition = window.scrollY;
     if (scrollPosition > 100) {
@@ -25,7 +27,7 @@ export default function NavBar() {
     <Nav isBackgroundVisible={isBackgroundVisible}>
       <NavContent>
         <NavLogo to={"/"} />
-        <NavAvatar src={AvatarPic} />
+        <NavAvatar src={AvatarPic} onClick={handleOnClickAvatar} />
       </NavContent>
     </Nav>
   );
