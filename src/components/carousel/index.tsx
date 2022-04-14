@@ -27,6 +27,7 @@ const useCarousel = () => {
 
   const dispatch = useAppDispatch();
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const handleOnAddToList = useCallback(
     debounce(
       (data: IMovie) => {
