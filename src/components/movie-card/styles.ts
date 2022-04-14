@@ -23,9 +23,9 @@ export const MovieCardContent = styled.div`
 `;
 
 export const MovieCardTitle = styled.h3`
-  font-size: 0.9rem;
+  font-size: 1rem;
   text-align: center;
-  text-transform: uppercase;
+  text-transform: capitalize;
 `;
 
 export const MovieRating = styled.div`
