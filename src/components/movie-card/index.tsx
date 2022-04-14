@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import { IMovie } from "../../apis/type";
 import { truncate } from "../../util/common";
 import { imageBaseUrlSmall } from "../../util/constants";
@@ -21,12 +22,13 @@ export function MovieCard(props: IMovieCard) {
   const {
     poster_path,
     backdrop_path,
-    title = "",
-    original_title = "",
-    name = "",
     vote_average,
   } = movie || {};
-  const movieName = truncate(title || original_title || name, 20);
+
+  const movieName = useMemo(() => {
+    const { title = "", original_title = "", name = "" } = movie || [];
+    return truncate(title || original_title || name, 20);
+  }, [movie]);
 
   const imageUrl = `${imageBaseUrlSmall}/${
     isLarge ? poster_path : backdrop_path
@@ -36,7 +38,7 @@ export function MovieCard(props: IMovieCard) {
     <MovieCardWrapper isLarge={isLarge}>
       <MovieRating>{vote_average}</MovieRating>
       <HeartButton isLiked={isLiked} onClick={() => onAddToList(movie)} />
-      <BaseImage src={imageUrl} isLarge={isLarge} title={title} />
+      <BaseImage src={imageUrl} isLarge={isLarge} title={movieName} />
       <MovieCardContent>
         {!isLarge && <MovieCardTitle>{movieName}</MovieCardTitle>}
       </MovieCardContent>

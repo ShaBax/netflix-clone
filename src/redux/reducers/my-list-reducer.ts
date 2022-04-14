@@ -15,24 +15,29 @@ const initialState: MyListState = {
   movies: {},
 };
 
+const updateMyListHandler = (state: MyListState, payload: IMovie) => {
+  const { id, name, title, original_title } = payload;
+  const movieName = title || original_title || name;
+  const currentMovieId = id || -1;
+  const existingMovies = state.movies;
+  const alreadyExist = existingMovies[currentMovieId];
+  if (alreadyExist) {
+    delete existingMovies[currentMovieId];
+    toast.success(`${movieName} removed from My List`);
+  } else {
+    existingMovies[currentMovieId] = payload;
+    toast.success(`${movieName} added to My List`);
+  }
+
+  return existingMovies;
+};
+
 export const myListSlice = createSlice({
   name: "myList",
   initialState,
   reducers: {
     updateMyList: (state, action: PayloadAction<IMovie>) => {
-      const { id, name, title, original_title } = action.payload;
-      const movieName = title || original_title || name;
-      const currentMovieId = id || -1;
-      const existingMovies = state.movies;
-      const alreadyExist = existingMovies[currentMovieId];
-      if (alreadyExist) {
-        delete existingMovies[currentMovieId];
-        toast.success(`${movieName} removed from My List`);
-      } else {
-        existingMovies[currentMovieId] = action.payload;
-        toast.success(`${movieName} added to My List`);
-      }
-      state.movies = existingMovies;
+      state.movies = updateMyListHandler(state, action.payload);
     },
   },
 });

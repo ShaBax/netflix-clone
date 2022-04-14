@@ -1,17 +1,11 @@
 import "react-loading-skeleton/dist/skeleton.css";
-import { useCallback } from "react";
-import { debounce } from "lodash";
 import { IMovie } from "../../apis/type";
 import { MovieCard } from "../movie-card";
-import {
-  CarouselContainer,
-  CarouselDescription,
-  CarouselList,
-  CarouselTitle,
-} from "./styles";
+import { CarouselDescription, CarouselList } from "./styles";
 import CarouselLoader from "./carousel-loader";
-import { useAppDispatch, useAppSelector } from "../../redux/hooks";
-import { myMovies, updateMyList } from "../../redux/reducers/my-list-reducer";
+import { useAppSelector } from "../../redux/hooks";
+import { myMovies } from "../../redux/reducers/my-list-reducer";
+import CarouselWrapper from "./carousel-wrapper";
 
 interface ICarousel {
   title: string;
@@ -19,32 +13,14 @@ interface ICarousel {
   isLarge?: boolean;
   isLoading?: boolean;
   isMulti?: boolean;
+  onAddToList: (data: IMovie) => void;
   [key: string]: any;
 }
 
-const useCarousel = () => {
-  const myListMovies = useAppSelector(myMovies);
-
-  const dispatch = useAppDispatch();
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const handleOnAddToList = useCallback(
-    debounce(
-      (data: IMovie) => {
-        dispatch(updateMyList(data));
-      },
-      500,
-      { leading: true, trailing: false, maxWait: 500 }
-    ),
-    []
-  );
-
-  return { handleOnAddToList, myListMovies };
-};
-
 export default function Carousel(props: ICarousel) {
-  const { title, movies, isLarge, isLoading, isMulti, ...rest } = props;
-  const { handleOnAddToList, myListMovies } = useCarousel();
+  const { title, movies, isLarge, isLoading, isMulti, onAddToList, ...rest } =
+    props;
+  const myListMovies = useAppSelector(myMovies);
 
   if (isLoading) {
     return <CarouselLoader isLarge={isLarge} />;
@@ -52,18 +28,16 @@ export default function Carousel(props: ICarousel) {
 
   if (!isLoading && !movies?.length) {
     return (
-      <CarouselContainer {...rest}>
-        <CarouselTitle>{title}</CarouselTitle>
+      <CarouselWrapper title={title}>
         <CarouselDescription>
           Sorry! currently no movies found in {title}
         </CarouselDescription>
-      </CarouselContainer>
+      </CarouselWrapper>
     );
   }
 
   return (
-    <CarouselContainer {...rest}>
-      <CarouselTitle>{title}</CarouselTitle>
+    <CarouselWrapper title={title} {...rest}>
       <CarouselList isMulti={isMulti}>
         {movies?.map((movie) => {
           const isLiked = !!myListMovies[movie?.id || -1];
@@ -73,11 +47,11 @@ export default function Carousel(props: ICarousel) {
               isLarge={isLarge}
               isLiked={isLiked}
               movie={movie}
-              onAddToList={handleOnAddToList}
+              onAddToList={onAddToList}
             />
           );
         })}
       </CarouselList>
-    </CarouselContainer>
+    </CarouselWrapper>
   );
 }
