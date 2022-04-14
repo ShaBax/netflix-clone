@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="" rel="noopener">
+  <a href="https://netflix-1992.netlify.app" rel="noopener">
  <img height='200px' src="https://logowik.com/content/uploads/images/netflix-n.jpg" alt="Netflix clone"></a>
 </p>
 
