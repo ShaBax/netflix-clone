@@ -4,6 +4,8 @@ export type movieEdpointsType =
   | "trending"
   | "netflixOriginals"
   | "topRated"
+  | "documentries"
+  | "romanceMovies"
   | "actionMovies"
   | "comedyMovies";
 
@@ -19,6 +21,14 @@ export const movieCategories = {
   topRated: {
     title: "Top Rated",
     endPoint: `/movie/top_rated?api_key=${apiKey}`,
+  },
+  documentries: {
+    title: "Documentries",
+    endPoint: `/discover/movie?api_key=${apiKey}&with_genres=99`,
+  },
+  romanceMovies: {
+    title: "Romance Movies",
+    endPoint: `/discover/movie?api_key=${apiKey}&with_genres=10749`,
   },
   actionMovies: {
     title: "Action Movies",
