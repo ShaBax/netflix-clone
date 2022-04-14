@@ -20,11 +20,11 @@
 
 ## 🧐 About <a name = "about"></a>
 
-In this project we are using Pokemon APIs to fetch pokemon list and evolution.
+In this project we are using  The Movie Database (TMDB) APIs to fetch movie list and Netflix for design.
 
 We are using React js library.
 
-Demo <a href="https://pokemon-demo.netlify.app/">https://pokemon-demo.netlify.app/</a>
+Demo <a href="https://netflix-1992.netlify.app/">https://netflix-1992.netlify.app/</a>
 
 
 ## 🏁 Getting Started <a name = "getting_started"></a>
