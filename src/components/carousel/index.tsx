@@ -28,7 +28,7 @@ export default function Carousel(props: ICarousel) {
 
   if (!isLoading && !movies?.length) {
     return (
-      <CarouselWrapper title={title}>
+      <CarouselWrapper title={title} {...rest}>
         <CarouselDescription>
           Sorry! currently no movies found in {title}
         </CarouselDescription>
