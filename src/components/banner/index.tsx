@@ -25,6 +25,7 @@ export default function Banner(props: IBanner) {
         <BannerButtonWrapper>
           <BannerButton onCanPlay={onClickPlay}>Play</BannerButton>
           <BannerButton onClick={onClickMyList}>My List</BannerButton>
+          <BannerButton onClick={()=>alert('new movies coming soon')}>New Movies</BannerButton>
         </BannerButtonWrapper>
         <BannerDescription>{truncate(description, 150)}</BannerDescription>
       </BannerContent>
