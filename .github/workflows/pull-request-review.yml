@@ -1,17 +1,16 @@
 name: Pull Request Review
-
 on:
   pull_request:
-    types: [opened, edited]
-
+    types: [opened, synchronize]
 jobs:
   review:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: ChatGPT review
-        uses: khan/chatgpt@v1
+      - name: Checkout code
+        uses: actions/checkout@v2
         with:
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-          path: ${{ github.event.pull_request.head.repo.full_name }}
-          number: ${{ github.event.pull_request.number }}
+          node-version: 16
+      - name: Install dependencies
+        run: npm install
+      - name: Review pull request
+        run: npm run review
